@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import numpy as np
 
 def read_log(log):
@@ -17,23 +18,57 @@ def read_log(log):
 
 def draw_log(log):
     gen_list, avg_list, std_list, max_list, min_list = read_log(log)
+    plt.figure(figsize=(20, 10))
     plt.plot(gen_list, avg_list, label="avg")
     plt.plot(gen_list, min_list, label="min")
     plt.plot(gen_list, max_list, label="max")
-    # plt.fill_between(gen_list, avg_list-std_list, avg_list+std_list, alpha=0.2)
     plt.legend()
     plt.tight_layout()
     plt.show()
 
-def draw_logs(log1, log2, lab1, lab2):
-    gen1, avg1, std1, max1, min1 = read_log(log1)
-    gen2, avg2, std2, max2, min2 = read_log(log2)
-    plt.plot(gen1, avg1, label=lab1, color="blue")
-    plt.plot(gen1, max1, label="{}_max".format(lab1), color="blue", linewidth=2)
-    plt.fill_between(gen1, avg1 - std1, avg1 + std1, alpha=0.2, color="blue")
-    plt.plot(gen2, avg2, label=lab2, color="orange")
-    plt.plot(gen2, max2, label="{}_max".format(lab2), color="orange", linewidth=2)
-    plt.fill_between(gen2, avg2 - std2, avg2 + std2, alpha=0.2, color="orange")
-    plt.legend()
-    plt.tight_layout()
+def draw_queens_on_desk(desk):
+    
+    fig = plt.figure(figsize=(20,20))
+    ax = fig.add_subplot(111)
+
+
+    queen_number = len(desk)
+
+    start_col_color = "black"
+    cell_color = start_col_color
+
+    def change_color(base_color):
+            if base_color == "black":
+                return "white"
+            else:
+                return "black"
+
+    for col in range(queen_number):
+        start_col_color = change_color(start_col_color)
+        cell_color = start_col_color
+
+        for row in range(queen_number):
+            patch_obst = patches.Rectangle((col - 0.5, row - 0.5), 1, 1, edgecolor = cell_color, facecolor = cell_color, fill=True)
+            ax.add_patch(patch_obst)
+            cell_color = change_color(cell_color)
+            
+
+
+
+
+    for queen in desk:
+        # Add queen point to desc
+        patch_queen = patches.Circle(xy=(queen // queen_number, queen % queen_number), radius=0.15, facecolor="red", edgecolor="red", fill=True, visible=True)
+        ax.add_patch(patch_queen)
+
+
+    plt.grid()
+
+    ax.set_yticks(np.arange(-0.5, queen_number+0.5, 1))
+    ax.set_xticks(np.arange(-0.5, queen_number+0.5, 1))
+    ax.set_yticklabels(np.arange(0, queen_number+0.5, 1))
+    ax.set_xticklabels(np.arange(0, queen_number+0.5, 1))
+
+    plt.draw()
     plt.show()
+
