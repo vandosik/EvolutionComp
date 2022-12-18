@@ -20,7 +20,7 @@ def draw_log(log):
     plt.plot(gen_list, avg_list, label="avg")
     plt.plot(gen_list, min_list, label="min")
     plt.plot(gen_list, max_list, label="max")
-    plt.fill_between(gen_list, avg_list-std_list, avg_list+std_list, alpha=0.2)
+    # plt.fill_between(gen_list, avg_list-std_list, avg_list+std_list, alpha=0.2)
     plt.legend()
     plt.tight_layout()
     plt.show()
